@@ -4,12 +4,16 @@ import one.digitalinnovation.personapi.dto.mapper.PersonMapper;
 import one.digitalinnovation.personapi.dto.request.PersonDTO;
 import one.digitalinnovation.personapi.dto.response.MessageResponseDTO;
 import one.digitalinnovation.personapi.entities.Person;
+import one.digitalinnovation.personapi.exception.PersonNotFoundException;
 import one.digitalinnovation.personapi.repositories.PersonRepository;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+
+import java.util.Optional;
 
 import static one.digitalinnovation.personapi.utils.PersonUtils.createFakeDTO;
 import static one.digitalinnovation.personapi.utils.PersonUtils.createFakeEntity;

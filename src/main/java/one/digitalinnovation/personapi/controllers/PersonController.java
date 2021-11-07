@@ -3,10 +3,12 @@ package one.digitalinnovation.personapi.controllers;
 import lombok.AllArgsConstructor;
 import one.digitalinnovation.personapi.dto.request.PersonDTO;
 import one.digitalinnovation.personapi.dto.response.MessageResponseDTO;
+import one.digitalinnovation.personapi.entities.Person;
 import one.digitalinnovation.personapi.exception.PersonNotFoundException;
 import one.digitalinnovation.personapi.services.PersonService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -27,32 +29,31 @@ public class PersonController {
 
     private final PersonService personService;
 
-    @PostMapping
-    @ResponseStatus(HttpStatus.CREATED)
-    public MessageResponseDTO create(@RequestBody @Valid PersonDTO personDTO) {
-        return personService.create(personDTO);
+    @GetMapping
+    public ResponseEntity listAllPersons() {
+        return new ResponseEntity<>(personService.listAll(), HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
-    @ResponseStatus(HttpStatus.OK)
-    public PersonDTO findById(@PathVariable Long id) throws PersonNotFoundException {
-        return personService.findById(id);
+    public ResponseEntity findById(@PathVariable Long id) throws PersonNotFoundException {
+        return new ResponseEntity<>(personService.findById(id), HttpStatus.OK);
     }
 
-    @GetMapping
-    public List<PersonDTO> listAll() {
-        return personService.listAll();
+    @PostMapping
+    public ResponseEntity create(@RequestBody @Valid PersonDTO personDTO) {
+        return new ResponseEntity<>(personService.create(personDTO), HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public MessageResponseDTO update(@PathVariable Long id, @RequestBody @Valid PersonDTO personDTO) throws PersonNotFoundException {
-        return personService.update(id, personDTO);
+
+    public ResponseEntity update(@PathVariable Long id,
+                                 @RequestBody @Valid PersonDTO personDTO) throws PersonNotFoundException {
+        return new ResponseEntity<>(personService.update(id, personDTO), HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void delete(@PathVariable Long id) throws PersonNotFoundException {
-        personService.delete(id);
+    public ResponseEntity delete(@PathVariable Long id) throws PersonNotFoundException {
+        return new ResponseEntity<>(personService.delete(id),HttpStatus.OK);
     }
 }
